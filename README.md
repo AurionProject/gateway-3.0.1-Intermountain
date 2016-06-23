@@ -1,4 +1,4 @@
-# gateway-3.0.1
+# gateway-3.0.1-Intermountain
 Fork of project from Direct
 
 This project was created to fix a bug found in the Direct Reference implementation code. The bug deals with the processing of Direct messages.
