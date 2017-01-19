@@ -62,6 +62,7 @@ import org.nhindirect.stagent.cert.impl.LdapStoreConfiguration;
 import org.nhindirect.stagent.cert.impl.provider.DNSCertStoreProvider;
 import org.nhindirect.stagent.cert.impl.provider.KeyStoreCertificateStoreProvider;
 import org.nhindirect.stagent.cert.impl.provider.LdapCertificateStoreProvider;
+import org.nhindirect.stagent.cert.impl.provider.PublicLdapCertificateStoreProvider;
 import org.nhindirect.stagent.module.AgentModule;
 import org.nhindirect.stagent.module.PrivateCertStoreModule;
 import org.nhindirect.stagent.module.PublicCertStoreModule;
@@ -520,6 +521,8 @@ public class XMLSmtpAgentConfig implements SmtpAgentConfig
 			 */
 			if (storeType.equalsIgnoreCase("keystore"))
 			{
+				LOGGER.info("\nXMLSmtpAgentConfig.buildPublicCertStore - Creating a 'KEYSTORE' certificate resolver \n");
+				
 				resolverProvider = new KeyStoreCertificateStoreProvider(certNode.getAttribute("file"), 
 						certNode.getAttribute("filePass"), certNode.getAttribute("privKeyPass"));
 			}
@@ -528,9 +531,21 @@ public class XMLSmtpAgentConfig implements SmtpAgentConfig
 			 */			
 			else if(storeType.equalsIgnoreCase("dns"))
 			{			
+				LOGGER.info("\nXMLSmtpAgentConfig.buildPublicCertStore - Creating a 'DNS' certificate resolver \n");
+				
 				resolverProvider = new DNSCertStoreProvider(Collections.EMPTY_LIST, 
 						null, new DefaultCertStoreCachePolicy());								
 			}
+			/*
+			 * LDAP resolver
+			 */			
+			else if(storeType.equalsIgnoreCase("ldap"))
+			{			
+				LOGGER.info("\nXMLSmtpAgentConfig.buildPublicCertStore - Creating a 'LDAP' certificate resolver \n");			
+				
+				resolverProvider = new PublicLdapCertificateStoreProvider(null, 
+						new LDAPCertificateStore.DefaultLDAPCachePolicy());								
+			}			
 			/*
 			 * Default to DNS with a default cache policy
 			 */
